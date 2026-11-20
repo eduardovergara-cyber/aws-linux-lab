@@ -1,0 +1,51 @@
+# =====================================================================
+# .gitignore — aws-linux-lab
+# Objetivo: que NUNCA lleguen a GitHub secretos ni el estado de Terraform.
+# =====================================================================
+
+# --- Terraform ---
+# Carpeta donde Terraform descarga providers (binarios pesados, se regeneran con `terraform init`)
+.terraform/
+# Estado de Terraform: contiene IDs, IPs y a veces datos sensibles de la infraestructura
+*.tfstate
+*.tfstate.*
+# Planes guardados (`terraform plan -out=...`) pueden contener valores sensibles
+*.tfplan
+tfplan
+# Variables reales (por ejemplo tu IP pública). Solo se sube el archivo de ejemplo.
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+# Archivos de override locales y logs de errores
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+crash.log
+crash.*.log
+.terraformrc
+terraform.rc
+# NOTA: .terraform.lock.hcl SÍ se sube (fija las versiones de los providers).
+
+# --- Claves y credenciales ---
+*.pem
+*.key
+*.ppk
+id_rsa*
+id_ed25519*
+.aws/
+credentials
+.env
+.env.*
+# Notas personales con datos de acceso (no deberían estar en el repo, pero por si acaso)
+iam.txt
+*secret*
+*password*
+
+# --- Sistema operativo / editores ---
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp

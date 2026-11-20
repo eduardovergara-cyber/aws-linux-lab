@@ -1,0 +1,6 @@
+# Forzar finales de línea LF (Linux) en scripts y archivos de Terraform.
+# Si user-data.sh llega a la EC2 con CRLF (Windows), bash falla con errores como "\r: command not found".
+* text=auto
+*.sh text eol=lf
+*.tf text eol=lf
+*.tfvars.example text eol=lf
