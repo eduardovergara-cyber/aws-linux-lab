@@ -42,6 +42,14 @@ variable "allowed_ssh_cidr" {
     condition     = can(cidrhost(var.allowed_ssh_cidr, 0)) && endswith(var.allowed_ssh_cidr, "/32")
     error_message = "allowed_ssh_cidr debe ser UNA sola IP con /32, por ejemplo 203.0.113.10/32. Nunca 0.0.0.0/0."
   }
+
+  # Las IPs privadas (10.x, 172.16-31.x, 192.168.x) y localhost (127.x) solo existen
+  # dentro de tu casa o tu PC. AWS nunca vería tus conexiones venir desde ellas,
+  # así que con una de esas el SSH quedaría bloqueado.
+  validation {
+    condition     = !can(regex("^(10\\.|127\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[01])\\.)", var.allowed_ssh_cidr))
+    error_message = "allowed_ssh_cidr es una IP PRIVADA (de tu red local). Usa tu IP PÚBLICA: (Invoke-RestMethod https://checkip.amazonaws.com).Trim()"
+  }
 }
 
 variable "public_key_path" {
